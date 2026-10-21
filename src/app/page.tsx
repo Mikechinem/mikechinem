@@ -5,7 +5,7 @@ const WHATSAPP_INVITE_LINK =
   "https://chat.whatsapp.com/G6VKYjgTMZGBMo66s91cX9";
 
 const outcomes = [
-  "Identify better ways to attract people who are actually interested in what you sell.",
+  "Identify better ways to attract people who are actually interested in what you sell through paid ads.",
   "Follow up with interested prospects instead of losing them after the first conversation.",
   "Build a channel to nurture prospects and encourage repeat purchases.",
   "Create a more organised customer acquisition process instead of relying on random sales.",
