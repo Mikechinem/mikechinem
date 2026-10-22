@@ -120,6 +120,142 @@ async function sendMetaRegistrationEvent({
   }
 }
 
+function getCookieValue(cookieHeader: string | null, name: string) {
+  if (!cookieHeader) return undefined;
+
+  const cookie = cookieHeader
+    .split(";")
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${name}=`));
+
+    if (!cookie) return undefined;
+
+  const value = cookie.slice(name.length + 1);
+
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function normalizeNigerianPhone(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+
+  if (!digits) return "";
+
+  if (phone.trim().startsWith("+")) return `+${digits}`;
+  if (digits.startsWith("234")) return `+${digits}`;
+  if (digits.startsWith("0")) return `+234${digits.slice(1)}`;
+
+  return `+234${digits}`;
+}
+
+async function sendTikTokRegistrationEvent({
+  request,
+  eventId,
+  email,
+  phone,
+  firstName,
+  lastName,
+}: {
+  request: Request;
+  eventId: string;
+  email: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+}) {
+  const pixelId =
+    process.env.TIKTOK_PIXEL_ID ??
+    process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
+  const accessToken = process.env.TIKTOK_EVENTS_API_ACCESS_TOKEN;
+
+  if (!pixelId || !accessToken) {
+    console.error("TikTok Events API environment variables are missing.");
+    return;
+  }
+
+  const referer = request.headers.get("referer");
+  const userAgent = request.headers.get("user-agent");
+  const clientIp = getClientIp(request);
+  const ttp = getCookieValue(request.headers.get("cookie"), "_ttp");
+
+  let ttclid: string | undefined;
+  if (referer) {
+    try {
+      ttclid = new URL(referer).searchParams.get("ttclid") ?? undefined;
+    } catch {
+      ttclid = undefined;
+    }
+  }
+
+  const user: Record<string, string> = {
+    email: sha256(email.trim().toLowerCase()),
+    phone: sha256(normalizeNigerianPhone(phone)),
+    first_name: sha256(firstName.trim().toLowerCase()),
+  };
+
+  if (lastName.trim()) {
+    user.last_name = sha256(lastName.trim().toLowerCase());
+  }
+  if (clientIp) user.ip = clientIp;
+  if (userAgent) user.user_agent = userAgent;
+  if (ttp) user.ttp = ttp;
+  if (ttclid) user.ttclid = ttclid;
+
+  const eventUrl = referer || request.url;
+
+  const payload: Record<string, unknown> = {
+    event_source: "web",
+    event_source_id: pixelId,
+    data: [
+      {
+        event: "Lead",
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        user,
+        page: { url: eventUrl },
+      },
+    ],
+  };
+
+  const testEventCode = process.env.TIKTOK_TEST_EVENT_CODE;
+  if (testEventCode) payload.test_event_code = testEventCode;
+
+  try {
+    const response = await fetch(
+      "https://business-api.tiktok.com/open_api/v1.3/event/track/",
+      {
+        method: "POST",
+        headers: {
+          "Access-Token": accessToken,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+        signal: AbortSignal.timeout(5000),
+      }
+    );
+
+    const result = (await response.json()) as {
+      code?: number;
+      message?: string;
+    };
+
+    if (!response.ok || result.code !== 0) {
+      console.error(
+        "TikTok Events API event failed:",
+        response.status,
+        result.message ?? "Unknown TikTok API error"
+      );
+    }
+  } catch (error) {
+    // Tracking failure should not undo a successful registration.
+    console.error("TikTok Events API request error:", error);
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const apiKey = process.env.MAILERLITE_API_KEY;
@@ -236,14 +372,25 @@ export async function POST(request: Request) {
 
     const eventId = randomUUID();
 
-    await sendMetaRegistrationEvent({
-      request,
-      eventId,
-      email,
-      phone,
-      firstName,
-      lastName,
-    });
+   await Promise.all([
+  sendMetaRegistrationEvent({
+    request,
+    eventId,
+    email,
+    phone,
+    firstName,
+    lastName,
+  }),
+  sendTikTokRegistrationEvent({
+    request,
+    eventId,
+    email,
+    phone,
+    firstName,
+    lastName,
+  }),
+]);
+
 
     return NextResponse.json({
       success: true,
