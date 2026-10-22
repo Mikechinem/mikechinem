@@ -102,7 +102,7 @@ export default function RegistrationForm() {
           <h2 className="mt-6 text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl">
             Take Your First Step
             <span className="mt-2 block text-[#b47a0b]">
-              Towards Better Ads.
+              Towards Selling Crazily Online
             </span>
           </h2>
 
