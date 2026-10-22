@@ -1,8 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
-
 const WHATSAPP_INVITE_LINK =
   "https://chat.whatsapp.com/G6VKYjgTMZGBMo66s91cX9";
 
