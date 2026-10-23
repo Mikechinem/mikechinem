@@ -74,7 +74,7 @@ export default function RegistrationForm() {
   }
 
   const inputClass =
-    "mt-2 min-h-14 w-full rounded-xl border border-[#dedbd3] bg-[#faf9f6] px-4 py-3 text-base text-[#171717] outline-none transition duration-200 placeholder:text-[#99958d] hover:border-[#c9bda5] focus:border-[#c18a20] focus:ring-4 focus:ring-[#e8a32d]/15";
+  "mt-2 min-h-14 w-full rounded-xl border border-[#dedbd3] bg-white px-4 py-3 text-base text-[#171717] outline-none transition duration-200 placeholder:text-[#99958d] hover:border-[#c9bda5] focus:border-[#c18a20] focus:ring-4 focus:ring-[#e8a32d]/15";
 
   return (
     <section

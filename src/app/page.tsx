@@ -237,9 +237,6 @@ export default function Home() {
 
           <div className="relative">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <span className="text-xs font-black uppercase tracking-[0.18em] text-[#e8a32d] sm:text-sm">
-                MIKECHINEM SALES GROWTH BOOTCAMP
-              </span>
               <span className="rounded-full border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-1.5 text-xs font-bold text-[#4ade80]">
                 100% FREE
               </span>
@@ -353,7 +350,7 @@ export default function Home() {
     </h2>
 
     <p className="mt-6 max-w-3xl text-lg leading-8 font-medium text-black/65 sm:text-xl sm:leading-9">
-      By the end of the three days, you'll have a clearer foundation for
+      By the end of the 3 days, you'll have a clearer foundation for
       planning your ads, reaching potential buyers and evaluating your
       advertising results.
     </p>
@@ -485,14 +482,22 @@ export default function Home() {
       </p>
 
       <p className="mt-4 max-w-xl text-base leading-8 text-[#454545] sm:text-lg">
-        Michael is a digital marketer who works with paid advertising,
-        landing pages, and sales funnels to help businesses reach potential
-        customers online. Through his hands-on e-commerce experience, he
-        understands the importance of making advertising decisions with a
-        clear plan—not guesswork. In this free 3-day training, he’ll break
-        down the fundamentals of customer acquisition with practical,
-        beginner-friendly lessons.
-      </p>
+  In the last 3 months, I have spent over{" "}
+  <mark>
+    <strong>2 million naira in ads</strong>
+  </mark>{" "}
+  trying to sell physical products to Nigerians. This journey brought in
+  brutal, fresh lessons that are critical to how you sell products around
+  here. The online marketing industry is unforgiving. Every kobo you spend
+  either brings a return or teaches you a hard lesson. Over the years, I have
+  worked with local and international brands spending hundreds of thousands of
+  dollars on ads to solve one major problem:{" "}
+  <mark>
+    <strong>getting more sales online</strong>
+  </mark>
+  . Now, I am bringing these exact battlefield lessons to you. See you on the
+  inside.
+</p>
 
       
 
