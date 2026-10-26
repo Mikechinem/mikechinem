@@ -1,7 +1,7 @@
 
 const testimonialImages = [
   {
-    src: "https://res.cloudinary.com/doatbjjtn/image/upload/v1792600598/d2_htwbzp.png",
+    src: "https://res.cloudinary.com/doatbjjtn/image/upload/v1793055166/rt1_cjng9u.png",
     alt: "Customer order and delivery evidence",
   },
   {
