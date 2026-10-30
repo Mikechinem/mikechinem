@@ -96,7 +96,7 @@ export default function RegistrationForm() {
         <div className="mb-9 text-center sm:mb-10">
           <span className="inline-flex items-center gap-2 rounded-full border border-[#e8a32d]/40 bg-[#e8a32d]/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#805400] sm:text-sm">
             <span className="h-2 w-2 rounded-full bg-[#e8a32d]" />
-            YOUR FREE TRAINING STARTS HERE
+            START SELLING LIKE WATER
           </span>
 
           <h2 className="mt-6 text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl">
